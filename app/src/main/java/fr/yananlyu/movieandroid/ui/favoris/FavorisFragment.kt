@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid.ui.gallery
+package fr.yananlyu.movieandroid.ui.favoris
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import fr.yananlyu.movieandroid.R
 
-class GalleryFragment : Fragment() {
+class FavorisFragment : Fragment() {
 
-    private lateinit var galleryViewModel: GalleryViewModel
+    private lateinit var favorisViewModel: FavorisViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-            ViewModelProviders.of(this).get(GalleryViewModel::class.java)
+        favorisViewModel =
+            ViewModelProviders.of(this).get(FavorisViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_gallery, container, false)
         val textView: TextView = root.findViewById(R.id.text_gallery)
-        galleryViewModel.text.observe(this, Observer {
+        favorisViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root
