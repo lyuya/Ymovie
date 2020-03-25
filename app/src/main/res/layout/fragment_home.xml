@@ -4,49 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background">
-<!--    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:scrollbars="vertical"/>-->
-
-<!--    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00a294"
-        app:tabTextColor="@android:color/background_light">
-
-    </android.support.design.widget.TabLayout>-->
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        <com.google.android.material.tabs.TabLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top" />-->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!--        <com.google.android.material.tabs.TabItem
-                        android:icon="@drawable/ic_icon_a_24"
-                        android:text="@string/tab_a_label"/>
-                    <com.google.android.material.tabs.TabItem
-                        android:icon="@drawable/ic_icon_b_24"
-                        android:text="@string/tab_b_label"/>
-                    <com.google.android.material.tabs.TabItem
-                        android:icon="@drawable/ic_icon_c_24"
-                        android:text="@string/tab_c_label"/>-->
-
-        </com.google.android.material.tabs.TabLayout>
-
-
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"/>
     </androidx.viewpager.widget.ViewPager>
 </RelativeLayout>

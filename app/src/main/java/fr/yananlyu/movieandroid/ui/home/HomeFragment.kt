@@ -31,9 +31,6 @@ class HomeFragment : Fragment() {
         viewPager = root.findViewById<ViewPager>(R.id.viewPager)
         viewPager.adapter = TabAdapter(childFragmentManager)
 
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Most popular"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Upcomings"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Top rated"))
         tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
         tabLayout!!.setupWithViewPager(viewPager);
         return root

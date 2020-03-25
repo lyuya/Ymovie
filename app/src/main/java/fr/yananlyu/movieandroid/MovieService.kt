@@ -12,12 +12,12 @@ interface MovieService {
     abstract fun getPopularFilms(): Call<Result>
 
     @GET("movie/upcoming")
-    abstract fun getUpcomingFilms(): Call<ArrayList<Film>>
+    abstract fun getUpcomingFilms(): Call<Result>
 
     @GET("movie/top_rated")
-    abstract fun getTopRatedFilms(): Call<ArrayList<Film>>
+    abstract fun getTopRatedFilms(): Call<Result>
 
     @GET("movie/now_playing")
-    abstract fun getNowPlayingFilms(): Call<ArrayList<Film>>
+    abstract fun getNowPlayingFilms(): Call<Result>
 }
 
