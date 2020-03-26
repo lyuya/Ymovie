@@ -4,6 +4,7 @@ import fr.yananlyu.movieandroid.model.Film
 import fr.yananlyu.movieandroid.model.Result
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.ArrayList
 
@@ -19,5 +20,8 @@ interface MovieService {
 
     @GET("movie/now_playing")
     abstract fun getNowPlayingFilms(): Call<Result>
+
+    @GET("movie/{id}")
+    abstract fun getFilm(@Path(value = "id", encoded = true) id: Int): Call<Film>
 }
 

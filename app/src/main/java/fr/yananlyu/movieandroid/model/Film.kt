@@ -20,7 +20,12 @@ class Film(
     @SerializedName("poster_path")
     val poster_path: String,
     @SerializedName("original_language")
-    val original_language: String
+    val original_language: String,
+    @SerializedName("release_date")
+    val release_date: String,
+    @SerializedName("vote_average")
+    val vote_average: Float
+
     )
     /*override fun toString(): String {
         return "Film(adult=$adult, backdrop_path=$backdrop_path, id=$id, original_language=$original_language, original_title=$original_title, overview=$overview, popularity=$popularity, poster_path=$poster_path)"

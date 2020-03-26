@@ -10,17 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fr.yananlyu.movieandroid.model.Film
 
-class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (Film) -> Unit): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (Film) -> Unit) :
+    RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return itemList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerViewAdapter.ViewHolder, position: Int) {
-        val feature = itemList[position]
-        println("img" + feature.poster_path)
-        Picasso.get().load("https://image.tmdb.org/t/p/original/" + feature.poster_path).into(holder.image);
+        val film = itemList[position]
+        Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
+            .into(holder.image);
         holder.itemView.setOnClickListener {
-            listener(feature)
+            listener(film)
         }
     }
 
@@ -39,8 +40,8 @@ class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (
         return ViewHolder(view)
     }
 
-       inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-           val image: ImageView = view.findViewById(R.id.img)
-       }
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val image: ImageView = view.findViewById(R.id.img)
+    }
 
 }

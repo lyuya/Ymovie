@@ -39,22 +39,9 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        /*adapter = RecyclerViewAdapter(ArrayList()) { feature ->
-            val intent = Intent(this, MovieDetailActivity::class.java)
-            // intent.putExtra(FEATURE_NAME, feature.properties.name)
-            startActivity(intent)
-        }*/
-
-/*        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -63,8 +50,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        // recyclerView.adapter = adapter
-        fetchData()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -78,30 +64,4 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private fun fetchData() {
-        val movieDBService = RetrofitInstance.getInstance().create(MovieService::class.java)
-        movieDBService.getPopularFilms().enqueue(object : Callback<Result> {
-
-            override fun onResponse(
-                call: Call<Result>,
-                response: Response<Result>
-            ) {
-                if (response.isSuccessful && response.body() != null) {
-                    val collection: Result = response.body()
-                    val results: ArrayList<Film>? = collection.results
-                    // adapter.addFeatureList(results)
-                    println("!!!" + collection.results.get(1).toString())
-                } else {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.app_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-            override fun onFailure(call: Call<Result>, t: Throwable) {
-                println(t)
-            }
-        })
-    }
 }

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Media -->
+            <ImageView
+                android:id="@+id/backimg"
+                android:layout_width="match_parent"
+                android:layout_height="194dp"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/poster"
+                    android:layout_width="180dp"
+                    android:layout_height="240dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/titre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="2"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textSize="20sp" />
+                    <!-- annee -->
+                    <TextView
+                        android:id="@+id/annee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:textSize="16sp"
+                        android:layout_below="@id/titre"/>
+                    <TextView
+                        android:id="@+id/numRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/annee"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                    <RatingBar
+                        android:id="@+id/rating"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="true"
+                        android:numStars="10"
+                        android:layout_below="@id/numRating"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        style="?attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        app:icon="@drawable/ic_favorite_border_black_24dp"
+                        android:text="@string/menu_favoris"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+                <!-- Title, secondary and supporting text -->
+
+
+
+                <!--                &lt;!&ndash; type &ndash;&gt;
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/type"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_width="match_parent"
+                                    android:scrollbars="horizontal"/>-->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/resume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="10"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:padding="10sp"
+        android:layout_below="@id/card"/>
+</RelativeLayout>
+</ScrollView>

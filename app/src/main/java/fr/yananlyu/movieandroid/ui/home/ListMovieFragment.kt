@@ -38,8 +38,9 @@ class ListMovieFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.setHasFixedSize(true)
 
-        adapter = RecyclerViewAdapter(ArrayList()) { feature ->
+        adapter = RecyclerViewAdapter(ArrayList()) { film ->
             val intent = Intent(context, MovieDetailActivity::class.java)
+            intent.putExtra("id", film.id)
             startActivity(intent)
         }
         recyclerView.adapter = adapter
