@@ -17,19 +17,6 @@ class RetrofitInstance {
         private lateinit var retrofit: Retrofit
 
         fun getInstance(): Retrofit {
-            /*   val interceptor = HttpLoggingInterceptor()
-               interceptor.level = HttpLoggingInterceptor.Level.BODY
-               val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-               retrofit = Retrofit.Builder()
-                   .baseUrl(BASE_URL)
-                   .client(httpClient)
-                   .addConverterFactory(GsonConverterFactory.create())
-                   .build()
-
-               return retrofit
-           }*/
-
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient().newBuilder().addInterceptor(Interceptor { chain ->

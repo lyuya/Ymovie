@@ -41,6 +41,7 @@ class ListMovieFragment : Fragment() {
         adapter = RecyclerViewAdapter(ArrayList()) { film ->
             val intent = Intent(context, MovieDetailActivity::class.java)
             intent.putExtra("id", film.id)
+            intent.putExtra("backdrop_path", film.backdrop_path)
             startActivity(intent)
         }
         recyclerView.adapter = adapter

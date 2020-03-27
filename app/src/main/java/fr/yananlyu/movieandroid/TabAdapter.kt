@@ -15,6 +15,7 @@ class TabAdapter( fm: FragmentManager): FragmentStatePagerAdapter(fm) {
         val numFragment : Int = position
         var bundle = Bundle()
         bundle.putInt("numFragment", numFragment)
+        // mettre ListMoviefragment dans le fragmentHome
         var frag = ListMovieFragment()
         frag.arguments = bundle
         return frag
