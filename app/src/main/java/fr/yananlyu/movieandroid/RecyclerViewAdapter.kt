@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fr.yananlyu.movieandroid.model.Film
@@ -25,7 +23,7 @@ class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (
         }
     }
 
-    fun addFeatureList(list: ArrayList<Film>) {
+    fun addList(list: ArrayList<Film>) {
         itemList.clear()
         itemList.addAll(list)
         notifyDataSetChanged()

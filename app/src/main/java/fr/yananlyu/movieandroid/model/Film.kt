@@ -3,7 +3,7 @@ package fr.yananlyu.movieandroid.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Film(
+public class Film(
 
     @SerializedName("adult")
     val adult: Boolean,

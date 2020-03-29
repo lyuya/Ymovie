@@ -17,4 +17,9 @@
         android:label="@string/menu_favoris"
         tools:layout="@layout/fragment_favoris" />
 
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="fr.yananlyu.movieandroid.ui.home.ListMovieFragment"
+        android:label="@string/action_search"
+        tools:layout="@layout/fragment_list" />
 </navigation>

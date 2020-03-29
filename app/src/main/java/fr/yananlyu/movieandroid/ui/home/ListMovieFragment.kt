@@ -4,9 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.yananlyu.movieandroid.*
@@ -15,15 +18,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ListMovieFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ListMovieFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ListMovieFragment : Fragment() {
 
     lateinit var adapter: RecyclerViewAdapter
@@ -33,6 +27,7 @@ class ListMovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         val root = inflater.inflate(R.layout.fragment_list, container, false)
         val recyclerView = root.findViewById(R.id.recyclerView) as RecyclerView // Add this
         recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -50,12 +45,41 @@ class ListMovieFragment : Fragment() {
         return root
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item!!,
+            view!!.findNavController())
+                || super.onOptionsItemSelected(item)
+    }
 
     private fun fetchData() {
-        val movieDBService = RetrofitInstance.getInstance().create(MovieService::class.java)
+        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
+        if(this.arguments?.get("query")!=null) {
+            service.searchMovie(this.arguments?.getString("query")!!).enqueue(object : Callback<Result> {
+
+                override fun onResponse(
+                    call: Call<Result>,
+                    response: Response<Result>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val collection: Result = response.body()
+                        val results = collection.results
+                        adapter.addList(results)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.app_error),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                override fun onFailure(call: Call<Result>, t: Throwable) {
+                    println(t)
+                }
+            })
+        }
         when(this.arguments?.get("numFragment")) {
             0 -> {
-                movieDBService.getPopularFilms().enqueue(object : Callback<Result> {
+                service.getPopularFilms().enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,
@@ -64,8 +88,7 @@ class ListMovieFragment : Fragment() {
                         if (response.isSuccessful && response.body() != null) {
                             val collection: Result = response.body()
                             val results = collection.results
-                            adapter.addFeatureList(results)
-                            println("size" + collection.results.size)
+                            adapter.addList(results)
                         } else {
                             Toast.makeText(
                                 context,
@@ -80,7 +103,7 @@ class ListMovieFragment : Fragment() {
                 })
             }
             1 -> {
-                movieDBService.getUpcomingFilms().enqueue(object : Callback<Result> {
+                service.getUpcomingFilms().enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,
@@ -89,8 +112,7 @@ class ListMovieFragment : Fragment() {
                         if (response.isSuccessful && response.body() != null) {
                             val collection: Result = response.body()
                             val results = collection.results
-                            adapter.addFeatureList(results)
-                            println("size" + collection.results.size)
+                            adapter.addList(results)
                         } else {
                             Toast.makeText(
                                 context,
@@ -105,7 +127,7 @@ class ListMovieFragment : Fragment() {
                 })
             }
             2 -> {
-                movieDBService.getTopRatedFilms().enqueue(object : Callback<Result> {
+                service.getTopRatedFilms().enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,
@@ -114,8 +136,7 @@ class ListMovieFragment : Fragment() {
                         if (response.isSuccessful && response.body() != null) {
                             val collection: Result = response.body()
                             val results = collection.results
-                            adapter.addFeatureList(results)
-                            println("size" + collection.results.size)
+                            adapter.addList(results)
                         } else {
                             Toast.makeText(
                                 context,
@@ -130,7 +151,7 @@ class ListMovieFragment : Fragment() {
                 })
             }
             3 -> {
-                movieDBService.getNowPlayingFilms().enqueue(object : Callback<Result> {
+                service.getNowPlayingFilms().enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,
@@ -139,8 +160,7 @@ class ListMovieFragment : Fragment() {
                         if (response.isSuccessful && response.body() != null) {
                             val collection: Result = response.body()
                             val results = collection.results
-                            adapter.addFeatureList(results)
-                            println("size" + collection.results.size)
+                            adapter.addList(results)
                         } else {
                             Toast.makeText(
                                 context,

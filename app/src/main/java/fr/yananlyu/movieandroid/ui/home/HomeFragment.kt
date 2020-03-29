@@ -17,8 +17,6 @@ import fr.yananlyu.movieandroid.*
 
 
 class HomeFragment : Fragment() {
-
-    lateinit var adapter: RecyclerViewAdapter
     var tabLayout: TabLayout? = null
     lateinit var viewPager: ViewPager
     override fun onCreateView(
@@ -27,7 +25,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        tabLayout = root.findViewById<TabLayout>(R.id.tabs)
+        tabLayout = root.findViewById<View>(R.id.tabs) as TabLayout
         viewPager = root.findViewById<ViewPager>(R.id.viewPager)
         viewPager.adapter = TabAdapter(childFragmentManager)
 

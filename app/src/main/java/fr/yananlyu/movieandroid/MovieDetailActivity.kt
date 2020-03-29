@@ -2,7 +2,7 @@ package fr.yananlyu.movieandroid
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.ImageView
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -14,11 +14,14 @@ import kotlinx.android.synthetic.main.movie_detail.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.android.material.snackbar.Snackbar
 
 
 class MovieDetailActivity : AppCompatActivity() {
     lateinit var adapter: SlideAdapter
+    lateinit var film: Film
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_detail)
@@ -27,6 +30,23 @@ class MovieDetailActivity : AppCompatActivity() {
         fetchMovieData(id)
         // send slideShowFragment the id of the movie in order to get the images
         fetchSlideImages(id, this, backimg)
+    }
+    fun onClick(view: View): Unit {
+        val gson: Gson = Gson()
+        val sharedPref = this.getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE) ?: return
+        val json = sharedPref.getString("favoris", "[]")
+        val typeListFilm = object : TypeToken<ArrayList<Film>>() {}.type
+        println("json" + json)
+        val films: ArrayList<Film> = gson.fromJson(json, typeListFilm)
+        films.add(film)
+        with (sharedPref.edit()) {
+
+            val filmJson = gson.toJson(films)
+            putString("favoris", filmJson)
+            commit()
+        }
+        Snackbar.make(this.findViewById(android.R.id.content), R.string.favoris_success, Snackbar.LENGTH_SHORT).show();
+
     }
     private fun fetchSlideImages(id: Int, context: Context, backimg: String? = null) {
         val movieDBService = RetrofitInstance.getInstance().create(MovieService::class.java)
@@ -43,9 +63,8 @@ class MovieDetailActivity : AppCompatActivity() {
                     if (filterImages(imagesResult).size != 0) {
                         adapter = SlideAdapter(context, filterImages(imagesResult))
                     }
-                    else if (backimg!=null){
+                    else if (!backimg.isNullOrEmpty()){
                         val array: ArrayList<MovieImage> = ArrayList()
-                        println("backimg: " + backimg)
                         val movieImage: MovieImage = MovieImage(Float.NaN, "/" + backimg!!,0, 0)
                         array.add(movieImage)
                         adapter = SlideAdapter(context, array)
@@ -67,21 +86,17 @@ class MovieDetailActivity : AppCompatActivity() {
         })
     }
     private fun filterImages(images: ArrayList<MovieImage>): ArrayList<MovieImage> {
-        // filter 4 images avec ratio 1.7777
-        if (images.size < 4) {
-          return images
-        } else
-            {
-            return ArrayList(images.filter { it.aspect_ratio > 1.7 && it.width == 3840})
-        }
+        // filter les images avec ratio 1.7777
+        return ArrayList(images.filter { it.aspect_ratio > 1.7 })
     }
     private fun fetchMovieData(id: Int) {
-        val metroService = RetrofitInstance.getInstance().create(MovieService::class.java)
-        metroService.getFilm(id).enqueue(object : Callback<Film> {
+        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
+        service.getFilm(id).enqueue(object : Callback<Film> {
             override fun onResponse(call: Call<Film>, response: Response<Film>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
+                        film = collection
                         displayData(collection)
                     } else {
                         Toast.makeText(applicationContext, getString(R.string.app_error), Toast.LENGTH_LONG).show()
@@ -102,10 +117,12 @@ class MovieDetailActivity : AppCompatActivity() {
         sb.append("Rating: ").append(film.vote_average)
         numRating.text = sb.toString()
         rating.rating = film.vote_average; // to set rating value
+        if(film.poster_path.isNullOrEmpty()){
+            poster.setImageResource(R.drawable.default_placeholder)
+        } else {
+            Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
+                .into(poster);
+        }
 
-/*        Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.backdrop_path)
-            .into(backimg);*/
-        Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
-            .into(poster);
     }
 }
