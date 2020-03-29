@@ -6,11 +6,9 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
             android:layout_width="match_parent"
@@ -29,21 +27,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/viewPagerSlide"
                     android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:layout_below="@id/viewPagerSlide">
+                    android:padding="10dp">
 
                     <ImageView
                         android:id="@+id/poster"
                         android:layout_width="160dp"
                         android:layout_height="240dp"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginLeft="10sp">
+                        android:layout_marginLeft="10sp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/titre"
@@ -81,28 +79,17 @@
                             android:saveEnabled="true" />
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonFavoris"
                             style="?attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:layout_marginEnd="2dp"
-                            android:text="@string/menu_favoris"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:id="@+id/buttonFavoris"
                             android:onClick="onClick"
-                            app:icon="@drawable/ic_favorite_border_black_24dp" />
+                            android:text="@string/menu_favoris"
+                            android:textColor="@color/cardview_light_background" />
                     </RelativeLayout>
-                    <!-- Title, secondary and supporting text -->
 
-
-                    <!--                &lt;!&ndash; type &ndash;&gt;
-                                    <androidx.recyclerview.widget.RecyclerView
-                                        android:id="@+id/type"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_width="match_parent"
-                                        android:scrollbars="horizontal"/>-->
 
                 </LinearLayout>
 
@@ -123,5 +110,70 @@
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
+
+        <RelativeLayout
+            android:id="@+id/actorsRelative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/resume"
+            android:layout_marginTop="20sp">
+
+            <TextView
+                android:id="@+id/text_actors"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20sp"
+                android:theme="@style/title"
+                android:text="@string/actors" />
+
+            <LinearLayout
+                android:id="@+id/actors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_actors"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewActors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actorsRelative"
+            android:layout_marginTop="20sp">
+
+            <TextView
+                android:id="@+id/text_similar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20sp"
+                android:theme="@style/title"
+                android:text="@string/films_similaires" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_similar"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewSimilars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

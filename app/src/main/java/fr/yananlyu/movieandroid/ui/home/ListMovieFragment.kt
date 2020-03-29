@@ -17,6 +17,8 @@ import fr.yananlyu.movieandroid.model.Result
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import EndlessRecyclerViewScrollListener
+
 
 class ListMovieFragment : Fragment() {
 
@@ -30,7 +32,8 @@ class ListMovieFragment : Fragment() {
         setHasOptionsMenu(true)
         val root = inflater.inflate(R.layout.fragment_list, container, false)
         val recyclerView = root.findViewById(R.id.recyclerView) as RecyclerView // Add this
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        recyclerView.layoutManager = gridLayoutManager
         recyclerView.setHasFixedSize(true)
 
         adapter = RecyclerViewAdapter(ArrayList()) { film ->
@@ -39,9 +42,19 @@ class ListMovieFragment : Fragment() {
             intent.putExtra("backdrop_path", film.backdrop_path)
             startActivity(intent)
         }
+        val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                println("HELLLLLLLO "+ page)
+                fetchData(page + 1)
+            }
+        }
+        // Adds the scroll listener to RecyclerView
+        recyclerView.addOnScrollListener(scrollListener)
         recyclerView.adapter = adapter
 
-        fetchData()
+        fetchData(1)
         return root
     }
 
@@ -51,7 +64,7 @@ class ListMovieFragment : Fragment() {
                 || super.onOptionsItemSelected(item)
     }
 
-    private fun fetchData() {
+    private fun fetchData(page: Int) {
         val service = RetrofitInstance.getInstance().create(MovieService::class.java)
         if(this.arguments?.get("query")!=null) {
             service.searchMovie(this.arguments?.getString("query")!!).enqueue(object : Callback<Result> {
@@ -79,7 +92,7 @@ class ListMovieFragment : Fragment() {
         }
         when(this.arguments?.get("numFragment")) {
             0 -> {
-                service.getPopularFilms().enqueue(object : Callback<Result> {
+                service.getPopularFilms(page).enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,
@@ -103,7 +116,7 @@ class ListMovieFragment : Fragment() {
                 })
             }
             1 -> {
-                service.getUpcomingFilms().enqueue(object : Callback<Result> {
+                service.getUpcomingFilms(page).enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,
@@ -127,7 +140,7 @@ class ListMovieFragment : Fragment() {
                 })
             }
             2 -> {
-                service.getTopRatedFilms().enqueue(object : Callback<Result> {
+                service.getTopRatedFilms(page).enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,
@@ -151,7 +164,7 @@ class ListMovieFragment : Fragment() {
                 })
             }
             3 -> {
-                service.getNowPlayingFilms().enqueue(object : Callback<Result> {
+                service.getNowPlayingFilms(page).enqueue(object : Callback<Result> {
 
                     override fun onResponse(
                         call: Call<Result>,

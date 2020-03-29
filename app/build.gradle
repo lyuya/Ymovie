@@ -5,6 +5,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    dataBinding{
+        enabled=true
+    }
     compileSdkVersion 29
     defaultConfig {
         applicationId "fr.yananlyu.movieandroid"
@@ -50,4 +53,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    compile "org.jetbrains.kotlin:kotlin-reflect:1.3.50"
 }

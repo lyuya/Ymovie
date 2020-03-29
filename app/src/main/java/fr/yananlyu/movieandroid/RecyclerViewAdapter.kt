@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fr.yananlyu.movieandroid.model.Film
@@ -16,6 +17,11 @@ class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (
 
     override fun onBindViewHolder(holder: RecyclerViewAdapter.ViewHolder, position: Int) {
         val film = itemList[position]
+        holder.title.text = film.original_title
+
+        val sb = StringBuilder()
+        sb.append(film.vote_average).append("/10")
+        holder.rating.text = sb.toString()
         Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
             .into(holder.image);
         holder.itemView.setOnClickListener {
@@ -24,7 +30,6 @@ class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (
     }
 
     fun addList(list: ArrayList<Film>) {
-        itemList.clear()
         itemList.addAll(list)
         notifyDataSetChanged()
     }
@@ -40,6 +45,8 @@ class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.img)
+        val title: TextView = view.findViewById(R.id.item_title)
+        val rating: TextView = view.findViewById(R.id.item_rating)
     }
 
 }

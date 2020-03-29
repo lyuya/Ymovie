@@ -2,9 +2,9 @@ package fr.yananlyu.movieandroid.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ResultsImages (
+data class ResultVideos (
     @SerializedName("id")
     var id: Int,
-    @SerializedName("backdrops")
-    var backdrops: ArrayList<MovieImage>
+    @SerializedName("results")
+    var results: ArrayList<MovieVideo>
 )

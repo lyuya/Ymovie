@@ -2,7 +2,7 @@ package fr.yananlyu.movieandroid.model
 
 import com.google.gson.annotations.SerializedName
 
-class MovieImage (
+data class MovieImage (
     @SerializedName("aspect_ratio")
     val aspect_ratio: Float,
     @SerializedName("file_path")
