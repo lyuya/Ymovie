@@ -24,8 +24,10 @@ class SearchResultsAdapter (private val itemList: ArrayList<Film>, val listener:
         return itemList.size
     }
 
-    fun addList(list: ArrayList<Film>) {
+    fun clearList() {
         itemList.clear()
+    }
+    fun addList(list: ArrayList<Film>) {
         itemList.addAll(list)
         notifyDataSetChanged()
     }

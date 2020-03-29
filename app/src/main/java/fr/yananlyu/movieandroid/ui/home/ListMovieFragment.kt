@@ -44,9 +44,6 @@ class ListMovieFragment : Fragment() {
         }
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-                println("HELLLLLLLO "+ page)
                 fetchData(page + 1)
             }
         }
@@ -66,30 +63,6 @@ class ListMovieFragment : Fragment() {
 
     private fun fetchData(page: Int) {
         val service = RetrofitInstance.getInstance().create(MovieService::class.java)
-        if(this.arguments?.get("query")!=null) {
-            service.searchMovie(this.arguments?.getString("query")!!).enqueue(object : Callback<Result> {
-
-                override fun onResponse(
-                    call: Call<Result>,
-                    response: Response<Result>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        val collection: Result = response.body()
-                        val results = collection.results
-                        adapter.addList(results)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            getString(R.string.app_error),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-                override fun onFailure(call: Call<Result>, t: Throwable) {
-                    println(t)
-                }
-            })
-        }
         when(this.arguments?.get("numFragment")) {
             0 -> {
                 service.getPopularFilms(page).enqueue(object : Callback<Result> {

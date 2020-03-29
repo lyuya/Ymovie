@@ -30,7 +30,7 @@ interface MovieService {
     fun getImages(@Path(value = "id", encoded = true) id: Int): Call<ResultsImages>
 
     @GET("search/movie")
-    fun searchMovie(@Query("query") query: String): Call<Result>
+    fun searchMovie(@Query("query") query: String, @Query("page") page: Int?): Call<Result>
 
     @GET("movie/{id}/credits")
     fun getCredits(@Path(value = "id", encoded = true) id: Int): Call<ResultCast>
