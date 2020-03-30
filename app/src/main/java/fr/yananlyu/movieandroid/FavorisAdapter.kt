@@ -27,7 +27,7 @@ class FavorisAdapter(private val itemList: ArrayList<Film>, val listener: (Film)
         val listItemBinding = DataBindingUtil.inflate<ViewDataBinding>(inflater, R.layout.list_item, parent, false)
 
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.favoris_item, parent, false)
+            .inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -38,13 +38,16 @@ class FavorisAdapter(private val itemList: ArrayList<Film>, val listener: (Film)
     override fun onBindViewHolder(holder: FavorisAdapter.ViewHolder, position: Int) {
         val film = itemList[position]
         if(film.poster_path.isNullOrEmpty()) {
-            println("film.poster_path"+film.poster_path)
             holder.image.setImageResource(R.drawable.default_placeholder)
         } else {
             Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
                 .into(holder.image);
         }
         holder.title.text = film.original_title
+
+        val sb = StringBuilder()
+        sb.append(film.vote_average).append("/10")
+        holder.rating.text = sb.toString()
         holder.itemView.setOnClickListener {
             listener(film)
         }    }
@@ -56,7 +59,8 @@ class FavorisAdapter(private val itemList: ArrayList<Film>, val listener: (Film)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.img_favoris_item)
-        val title: TextView = view.findViewById(R.id.text_favoris_item)
+        val image: ImageView = view.findViewById(R.id.img)
+        val title: TextView = view.findViewById(R.id.item_title)
+        val rating: TextView = view.findViewById(R.id.item_rating)
     }
 }

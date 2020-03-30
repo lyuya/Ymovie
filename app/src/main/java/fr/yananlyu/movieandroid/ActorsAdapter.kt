@@ -16,7 +16,7 @@ class ActorsAdapter (private val itemList: ArrayList<Cast>, val listener: (Cast)
         viewType: Int
     ): ActorsAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.favoris_item, parent, false)
+            .inflate(R.layout.person_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -43,7 +43,7 @@ class ActorsAdapter (private val itemList: ArrayList<Cast>, val listener: (Cast)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.img_favoris_item)
-        val name: TextView = view.findViewById(R.id.text_favoris_item)
+        val image: ImageView = view.findViewById(R.id.img_person_item)
+        val name: TextView = view.findViewById(R.id.text_person_item)
     }
 }

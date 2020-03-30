@@ -28,10 +28,11 @@
             <TextView
                 android:id="@+id/item_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35sp"
                 android:layout_below="@id/img"
-                android:padding="3sp"
                 android:maxLines="2"
+                android:ellipsize="end"
+                android:textStyle="bold"
                 android:textColor="@android:color/background_dark"
                 android:textSize="14sp" />
 
@@ -39,7 +40,6 @@
                 android:id="@+id/item_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="3sp"
                 android:gravity="center_vertical"
                 android:drawableStart="@drawable/ic_star_orange"
                 android:layout_below="@id/item_title"
