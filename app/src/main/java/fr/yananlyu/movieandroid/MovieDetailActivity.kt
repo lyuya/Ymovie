@@ -34,11 +34,15 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_detail)
-        // set actors recyclerview
         val recyclerViewActors = findViewById(R.id.recyclerviewActors) as RecyclerView
         val recyclerViewSimiars = findViewById(R.id.recyclerviewSimilars) as RecyclerView
         recyclerViewActors.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         actorsAdapter = ActorsAdapter(ArrayList()) { cast ->
+            val intent = Intent(this, PersonDetailActivity::class.java)
+            intent.putExtra("id", cast.id)
+            print("cast.id" + cast.id)
+            finish()
+            startActivity(intent)
         }
 
         recyclerViewSimiars.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -105,7 +109,6 @@ class MovieDetailActivity : AppCompatActivity() {
         }
     }
     private fun getListener(): FragmentManager.OnBackStackChangedListener {
-        println("I'm called!!!")
         return object : FragmentManager.OnBackStackChangedListener {
             override fun onBackStackChanged() {
                 val manager = supportFragmentManager
@@ -165,7 +168,6 @@ class MovieDetailActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
-                        println("cast size" + collection.cast.size)
                         actorsAdapter.addList(collection.cast)
                     } else {
                         Toast.makeText(applicationContext, getString(R.string.app_error), Toast.LENGTH_LONG).show()

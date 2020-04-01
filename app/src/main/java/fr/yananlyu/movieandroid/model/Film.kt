@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName
 
 data class Film(
 
-    @SerializedName("adult")
-    val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdrop_path: String,
     @SerializedName("id")

@@ -18,5 +18,5 @@
     <string name="favoris_empty">No film in your favoriste list!</string>
     <string name="actors">Actors</string>
     <string name="films_similaires">Similar movies</string>
-
+    <string name="actor_movies">Known For</string>
 </resources>

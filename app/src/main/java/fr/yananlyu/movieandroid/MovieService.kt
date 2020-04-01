@@ -1,9 +1,6 @@
 package fr.yananlyu.movieandroid
 
-import fr.yananlyu.movieandroid.model.Film
-import fr.yananlyu.movieandroid.model.Result
-import fr.yananlyu.movieandroid.model.ResultCast
-import fr.yananlyu.movieandroid.model.ResultsImages
+import fr.yananlyu.movieandroid.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -39,6 +36,13 @@ interface MovieService {
     fun getSimilarFilms(@Path(value = "id", encoded = true) id: Int): Call<Result>
 
     @GET("movie/{id}/videos")
-    fun getVideos(@Path(value = "id", encoded = true) id: Int): Call<Result>
+    fun getVideos(@Path(value = "id", encoded = true) id: Int): Call<ResultVideos>
+
+    @GET("person/{person_id}")
+    fun getPerson(@Path(value = "person_id", encoded = true) person_id: Int): Call<MoviePerson>
+
+    @GET("person/{person_id}/movie_credits")
+    fun getPersonMovies(@Path(value = "person_id", encoded = true) person_id: Int): Call<ResultPerson>
+
 }
 

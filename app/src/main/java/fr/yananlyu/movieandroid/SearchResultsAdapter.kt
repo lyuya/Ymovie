@@ -34,7 +34,6 @@ class SearchResultsAdapter (private val itemList: ArrayList<Film>, val listener:
     override fun onBindViewHolder(holder: SearchResultsAdapter.ViewHolder, position: Int) {
         val film = itemList[position]
         if(film.poster_path.isNullOrEmpty()) {
-            println("film.poster_path"+film.poster_path)
             holder.image.setImageResource(R.drawable.default_placeholder)
         } else {
             Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)

@@ -33,9 +33,10 @@ class ActorsAdapter (private val itemList: ArrayList<Cast>, val listener: (Cast)
                 .into(holder.image);
         }
         holder.name.text = cast.name
-/*        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener {
             listener(cast)
-        } */   }
+        }
+    }
 
     fun addList(list: ArrayList<Cast>) {
         itemList.addAll(list)

@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getListener(): FragmentManager.OnBackStackChangedListener {
-        println("I'm called!!!")
         return object : FragmentManager.OnBackStackChangedListener {
             override fun onBackStackChanged() {
                 val manager = supportFragmentManager

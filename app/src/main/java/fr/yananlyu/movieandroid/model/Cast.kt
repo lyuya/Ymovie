@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class Cast (
     @SerializedName("name")
     var name: String,
+    @SerializedName("id")
+    var id: Int,
     @SerializedName("profile_path")
     var profile_path: String?
 )

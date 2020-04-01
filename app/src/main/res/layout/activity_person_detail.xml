@@ -12,7 +12,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card"
+            android:id="@+id/card_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -21,20 +21,14 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewPagerSlide"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/viewPagerSlide"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
                     <ImageView
-                        android:id="@+id/poster"
+                        android:id="@+id/poster_person"
                         android:layout_width="160dp"
                         android:layout_height="240dp"
                         android:scaleType="fitXY" />
@@ -47,50 +41,30 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/titre"
+                            android:id="@+id/name_person"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLines="2"
-                            android:textSize="20sp" />
-                        <!-- annee -->
+                            style="@style/title"/>
                         <TextView
-                            android:id="@+id/annee"
+                            android:id="@+id/birthday_person"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/titre"
+                            android:layout_below="@id/name_person"
+                            android:layout_marginTop="8dp"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/place_birthday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/birthday_person"
                             android:layout_marginTop="8dp"
                             android:textColor="?android:attr/textColorSecondary"
                             android:textSize="16sp" />
 
-                        <TextView
-                            android:id="@+id/numRating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/annee"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
 
-                        <RatingBar
-                            android:id="@+id/rating"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/numRating"
-                            android:numStars="10"
-                            android:saveEnabled="true" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/buttonFavoris"
-                            style="?attr/borderlessButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginEnd="2dp"
-                            android:onClick="onClick"
-                            android:text="@string/menu_favoris"
-                            android:textColor="@color/cardview_light_background"/>
                     </RelativeLayout>
-
 
                 </LinearLayout>
 
@@ -99,10 +73,10 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/resume"
+            android:id="@+id/resume_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card"
+            android:layout_below="@id/card_person"
             android:layout_marginLeft="10sp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="10sp"
@@ -110,64 +84,30 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
 
+
         <RelativeLayout
-            android:id="@+id/actorsRelative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/resume"
+            android:layout_below="@id/resume_person"
             android:layout_marginTop="20sp">
 
             <TextView
-                android:id="@+id/text_actors"
+                android:id="@+id/person_movies"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 android:theme="@style/title"
-                android:text="@string/actors" />
-
-            <LinearLayout
-                android:id="@+id/actors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_actors"
-                android:orientation="horizontal">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerviewActors"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="horizontal"
-                    android:layout_marginEnd="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/actorsRelative"
-            android:layout_marginTop="20sp">
-
-            <TextView
-                android:id="@+id/text_similar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20sp"
-                android:layout_marginRight="20sp"
-                android:theme="@style/title"
-                android:text="@string/films_similaires" />
+                android:text="@string/actor_movies" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_similar"
+                android:layout_below="@id/person_movies"
                 android:orientation="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerviewSimilars"
+                    android:id="@+id/recyclerview_person_movies"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20sp"
