@@ -86,16 +86,13 @@ class PersonDetailActivity : AppCompatActivity() {
         sb.append(person.birthday).append("~").append(deathday)
         birthday_person.text = sb.toString()
         resume_person.text = person.biography
-        if (person.place_of_birth.isEmpty()) {
-            place_birthday.text = person.place_of_birth
-        }else {
-            place_birthday.visibility = View.INVISIBLE
-        }
+        place_birth.text = person.place_of_birth
+
         if(person.profile_path.isNullOrEmpty()){
-            poster.setImageResource(R.drawable.default_placeholder)
+            poster_person.setImageResource(R.drawable.default_placeholder)
         } else {
             Picasso.get().load("https://image.tmdb.org/t/p/original/" + person.profile_path)
-                .into(poster_person);
+                .into(poster_person)
         }
     }
 }

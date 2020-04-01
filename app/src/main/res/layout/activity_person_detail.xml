@@ -55,7 +55,7 @@
                             android:textColor="?android:attr/textColorSecondary"
                             android:textSize="16sp" />
                         <TextView
-                            android:id="@+id/place_birthday"
+                            android:id="@+id/place_birth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/birthday_person"

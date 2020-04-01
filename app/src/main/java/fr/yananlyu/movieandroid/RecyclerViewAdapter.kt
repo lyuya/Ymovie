@@ -15,15 +15,19 @@ class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (
         return itemList.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerViewAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val film = itemList[position]
         holder.title.text = film.original_title
 
         val sb = StringBuilder()
         sb.append(film.vote_average).append("/10")
         holder.rating.text = sb.toString()
-        Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
-            .into(holder.image);
+        if(film.poster_path.isNullOrEmpty()) {
+            holder.image.setImageResource(R.drawable.default_placeholder)
+        } else {
+            Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
+            .into(holder.image)
+        }
         holder.itemView.setOnClickListener {
             listener(film)
         }
@@ -37,7 +41,7 @@ class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerViewAdapter.ViewHolder {
+    ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)

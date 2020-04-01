@@ -32,9 +32,9 @@ class SlideAdapter(private val context: Context, private var images:ArrayList<Mo
         layoutinflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val v = layoutinflater.inflate(R.layout.fragment_slideshow, container,false)
         val image: ImageView = v.findViewById<ImageView>(R.id.slideshowImage)
-        if (images.size == 0) {
+        if (images.isNullOrEmpty()) {
             image.setImageResource(R.drawable.backdrop)
-        } else {
+        }else{
             Picasso.get().load("https://image.tmdb.org/t/p/original" + images[position].file_path).into(image)
         }
         val vp = container as ViewPager

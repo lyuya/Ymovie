@@ -51,8 +51,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLines="2"
+                            android:ellipsize="end"
+                            android:theme="@style/title"
                             android:textSize="20sp" />
-                        <!-- annee -->
                         <TextView
                             android:id="@+id/annee"
                             android:layout_width="wrap_content"
