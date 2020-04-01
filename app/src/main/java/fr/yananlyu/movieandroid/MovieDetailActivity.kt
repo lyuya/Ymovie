@@ -3,7 +3,9 @@ package fr.yananlyu.movieandroid
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -29,13 +31,16 @@ class MovieDetailActivity : AppCompatActivity() {
     lateinit var film: Film
     lateinit var actorsAdapter: ActorsAdapter
     lateinit var similarFilmsAdapter: SimilarFilmsAdapter
-
+    lateinit var videosAdapter: VideoAdapter
     val gson: Gson = Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_detail)
+
         val recyclerViewActors = findViewById(R.id.recyclerviewActors) as RecyclerView
         val recyclerViewSimiars = findViewById(R.id.recyclerviewSimilars) as RecyclerView
+        val recyclerviewVideos = findViewById(R.id.recyclerviewVideos) as RecyclerView
+
         recyclerViewActors.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         actorsAdapter = ActorsAdapter(ArrayList()) { cast ->
             val intent = Intent(this, PersonDetailActivity::class.java)
@@ -54,8 +59,15 @@ class MovieDetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        recyclerviewVideos.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        videosAdapter = VideoAdapter(ArrayList()) { movieVideo ->
+            finish()
+            startActivity(intent)
+        }
+
         recyclerViewActors.adapter = actorsAdapter
         recyclerViewSimiars.adapter = similarFilmsAdapter
+        recyclerviewVideos.adapter = videosAdapter
 
         val id:Int = this.intent.extras!!.getInt("id")
         val backimg = this.intent.extras!!.getString("backdrop_path")
@@ -64,10 +76,12 @@ class MovieDetailActivity : AppCompatActivity() {
         fetchSlideImages(id, this, backimg)
         fetchCredits(id)
         fetchSilmilarFilms(id)
-        getSupportFragmentManager().addOnBackStackChangedListener(getListener());
+        fetchVideos(id)
+
+        getSupportFragmentManager().addOnBackStackChangedListener(getListener())
 
     }
-    fun onClick(view: View): Unit {
+    fun onClick(view: View) {
 
             val sharedPref = this.getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE)
             val films = getFilmsFromSharePreferences()
@@ -90,7 +104,7 @@ class MovieDetailActivity : AppCompatActivity() {
                 this.findViewById(android.R.id.content),
                 R.string.favoris_remove,
                 Snackbar.LENGTH_SHORT
-            ).show();
+            ).show()
             showIconFavoris()
         } else {
             films.add(film)
@@ -104,16 +118,15 @@ class MovieDetailActivity : AppCompatActivity() {
                 this.findViewById(android.R.id.content),
                 R.string.favoris_success,
                 Snackbar.LENGTH_SHORT
-            ).show();
+            ).show()
             showIconFavoris()
         }
     }
     private fun getListener(): FragmentManager.OnBackStackChangedListener {
         return object : FragmentManager.OnBackStackChangedListener {
             override fun onBackStackChanged() {
-                val manager = supportFragmentManager
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                val currentFragment: Fragment? = navHostFragment?.getChildFragmentManager()?.getFragments()?.get(0);
+                val currentFragment: Fragment? = navHostFragment?.getChildFragmentManager()?.getFragments()?.get(0)
                 if (FavorisFragment::class.isInstance(currentFragment))
                     currentFragment?.onResume()
             }
@@ -136,7 +149,7 @@ class MovieDetailActivity : AppCompatActivity() {
                     }
                     else if (!backimg.isNullOrEmpty()){
                         val array: ArrayList<MovieImage> = ArrayList()
-                        val movieImage: MovieImage = MovieImage(Float.NaN, "/" + backimg!!,0, 0)
+                        val movieImage = MovieImage(Float.NaN, "/" + backimg,0, 0)
                         array.add(movieImage)
                         slideAdapter = SlideAdapter(context, array)
                     } else {
@@ -161,6 +174,38 @@ class MovieDetailActivity : AppCompatActivity() {
         return ArrayList(images.filter { it.aspect_ratio > 1.7 })
     }
 
+    private fun fetchVideos(id: Int) {
+        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
+        service.getVideos(id).enqueue(object : Callback<ResultVideos> {
+            override fun onResponse(call: Call<ResultVideos>, response: Response<ResultVideos>) {
+                if (response.isSuccessful && response.body() != null) { //Manage data
+                    val collection = response.body()
+                    if(collection != null) {
+                        val listVideos: ArrayList<MovieVideo> = ArrayList()
+                        collection.results.forEach{
+                            if (it.type == "Trailer") {
+                                listVideos.add(it)
+                            }
+                        }
+                        if (!listVideos.isNullOrEmpty()) {
+                            videosAdapter.addList(listVideos)
+                        } else {
+                            val textView: TextView = findViewById(R.id.empty_trailor)
+                            textView.setText(R.string.empty_trailors)
+                            textView.gravity = Gravity.CENTER
+                        }
+
+                    } else {
+                        Toast.makeText(applicationContext, getString(R.string.app_error), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResultVideos>, t: Throwable) { //Manage errors
+            }
+        })
+    }
+
     private fun fetchCredits(id: Int) {
         val service = RetrofitInstance.getInstance().create(MovieService::class.java)
         service.getCredits(id).enqueue(object : Callback<ResultCast> {
@@ -168,7 +213,13 @@ class MovieDetailActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
-                        actorsAdapter.addList(collection.cast)
+                        if (!collection.cast.isNullOrEmpty()) {
+                            actorsAdapter.addList(collection.cast)
+                        } else {
+                            val textView: TextView = findViewById(R.id.empty_actors)
+                            textView.setText(R.string.empty_actors)
+                            textView.gravity = Gravity.CENTER
+                        }
                     } else {
                         Toast.makeText(applicationContext, getString(R.string.app_error), Toast.LENGTH_LONG).show()
                     }
@@ -186,7 +237,13 @@ class MovieDetailActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     val collection = response.body()
                     if(collection != null) {
-                        similarFilmsAdapter.addList(collection.results)
+                        if(!collection.results.isNullOrEmpty()) {
+                            similarFilmsAdapter.addList(collection.results)
+                        } else {
+                                val textView: TextView = findViewById(R.id.empty_movies)
+                                textView.setText(R.string.empty_movies)
+                                textView.gravity = Gravity.CENTER
+                        }
                     } else {
                         Toast.makeText(applicationContext, getString(R.string.app_error), Toast.LENGTH_LONG).show()
                     }
@@ -224,13 +281,13 @@ class MovieDetailActivity : AppCompatActivity() {
         val sb = StringBuilder()
         sb.append(film.vote_average).append("/10")
         numRating.text = sb.toString()
-        rating.rating = film.vote_average; // to set rating value
+        rating.rating = film.vote_average
         showIconFavoris()
         if(film.poster_path.isNullOrEmpty()){
             poster.setImageResource(R.drawable.default_placeholder)
         } else {
             Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
-                .into(poster);
+                .into(poster)
         }
     }
     fun showIconFavoris() {
@@ -249,7 +306,7 @@ class MovieDetailActivity : AppCompatActivity() {
         return films
     }
     private fun isFavoris(film: Film): Boolean {
-        var isFavoris: Boolean = false
+        var isFavoris = false
         getFilmsFromSharePreferences().forEach{
             if (it.id == film.id) {
                 isFavoris = true

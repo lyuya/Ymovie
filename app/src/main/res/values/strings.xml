@@ -16,7 +16,13 @@
     <string name="favoris_success">Added in your favoriste list! </string>
     <string name="favoris_remove">Removed in your favoriste list! </string>
     <string name="favoris_empty">No film in your favoriste list!</string>
+    <string name="empty_movies">No similar movies.</string>
+    <string name="empty_actors">No actors.</string>
+    <string name="empty_trailors">No trailors.</string>
+    <string name="empty_search_results">No results found.</string>
     <string name="actors">Actors</string>
     <string name="films_similaires">Similar movies</string>
     <string name="actor_movies">Known For</string>
+    <string name="movie_videos">Trailors</string>
+    <string name="youtube_api_key">AIzaSyCcdd-NS-deT6IE9k8BC2eXce__z1ONbeg</string>
 </resources>

@@ -4,7 +4,10 @@ import EndlessRecyclerViewScrollListener
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.view.View
 import android.widget.SearchView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,14 +71,24 @@ class SearchActivity : AppCompatActivity() {
         // handleIntent(intent!!)
     }
     fun searchQuery(query: String) {
+        val textView: TextView = findViewById(R.id.empty_result_search)
         val service = RetrofitInstance.getInstance().create(MovieService::class.java)
         service.searchMovie(query, 1).enqueue(object : Callback<Result> {
             override fun onResponse(call: Call<Result>, response: Response<Result>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
-                        adapter.clearList()
-                        adapter.addList(collection.results)
+                        if(!collection.results.isNullOrEmpty()) {
+                            textView.visibility = View.INVISIBLE
+                            adapter.clearList()
+                            adapter.addList(collection.results)
+                        } else {
+                            adapter.clearList()
+                            adapter.addList(collection.results)
+                            textView.visibility = View.VISIBLE
+                            textView.setText(R.string.empty_search_results)
+                            textView.gravity = Gravity.CENTER
+                        }
                     } else {
                         Toast.makeText(applicationContext, getString(R.string.app_error), Toast.LENGTH_LONG).show()
                     }

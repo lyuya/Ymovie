@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="false"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -24,7 +25,8 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPagerSlide"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp" />
+                    android:layout_height="200dp"
+                    android:background="@color/splashScreen"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,10 +52,11 @@
                             android:id="@+id/titre"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
                             android:ellipsize="end"
-                            android:theme="@style/title"
-                            android:textSize="20sp" />
+                            android:maxLines="2"
+                            android:textSize="20sp"
+                            android:theme="@style/title" />
+
                         <TextView
                             android:id="@+id/annee"
                             android:layout_width="wrap_content"
@@ -89,7 +92,7 @@
                             android:layout_marginEnd="2dp"
                             android:onClick="onClick"
                             android:text="@string/menu_favoris"
-                            android:textColor="@color/cardview_light_background"/>
+                            android:textColor="@color/cardview_light_background" />
                     </RelativeLayout>
 
 
@@ -124,8 +127,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
-                android:theme="@style/title"
-                android:text="@string/actors" />
+                android:text="@string/actors"
+                android:theme="@style/title" />
 
             <LinearLayout
                 android:id="@+id/actors"
@@ -134,12 +137,18 @@
                 android:layout_below="@id/text_actors"
                 android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/empty_actors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewActors"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scrollbars="horizontal"
                     android:layout_marginEnd="20sp"
+                    android:scrollbars="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
@@ -147,6 +156,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/similarRelative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/actorsRelative"
@@ -158,14 +168,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
-                android:theme="@style/title"
-                android:text="@string/films_similaires" />
+                android:text="@string/films_similaires"
+                android:theme="@style/title" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_similar"
                 android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/empty_movies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewSimilars"
@@ -177,5 +193,43 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/similarRelative"
+            android:layout_marginTop="20sp">
+
+            <TextView
+                android:id="@+id/text_video"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20sp"
+                android:text="@string/movie_videos"
+                android:theme="@style/title" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/text_video">
+
+                <TextView
+                    android:id="@+id/empty_trailor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewVideos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+        </RelativeLayout>
+
     </RelativeLayout>
 </ScrollView>
