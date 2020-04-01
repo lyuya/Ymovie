@@ -47,6 +47,7 @@ class SearchActivity : AppCompatActivity() {
         val searchView: SearchView = findViewById(R.id.search_bar)
         searchView.onActionViewExpanded()
         searchView.setIconified(false);
+        searchView.queryHint = "Search a movie..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (p0!!.isNotEmpty()) {
