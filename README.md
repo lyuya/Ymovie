@@ -1,4 +1,4 @@
-# movieMobile
+# Ymovie
 Projet mobile de M1 MIAGE
 ## Screenshot
 
