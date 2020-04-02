@@ -1,5 +1,5 @@
 # movieMobile
-Projet mobile de M2 MIAGE
+Projet mobile de M1 MIAGE
 ## Screenshot
 
 ![Screenshot3](https://user-images.githubusercontent.com/37207110/78128666-93714d00-7416-11ea-8c89-ada4533f20f5.jpg)
