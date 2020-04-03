@@ -21,7 +21,10 @@
     <string name="empty_movies">No similar movies.</string>
     <string name="empty_actors">No actors.</string>
     <string name="empty_trailors">No trailors.</string>
+    <string name="empty_tv">No TV series.</string>
+
     <string name="empty_search_results">No results found.</string>
+
     <string name="actors">Actors</string>
     <string name="films_similaires">Similar movies</string>
     <string name="movie_videos">Trailors</string>

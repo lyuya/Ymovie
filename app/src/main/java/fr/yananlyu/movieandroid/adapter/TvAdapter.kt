@@ -44,10 +44,13 @@ class TvAdapter (private val itemList: ArrayList<Tv>, val listener: (Tv) -> Unit
     }
 
     fun addList(list: ArrayList<Tv>) {
-        itemList.clear()
         itemList.addAll(list)
         notifyDataSetChanged()
     }
+    fun clearList() {
+        itemList.clear()
+    }
+
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name = view.findViewById(R.id.item_title) as TextView

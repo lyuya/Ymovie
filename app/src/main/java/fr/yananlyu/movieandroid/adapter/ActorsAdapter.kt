@@ -43,6 +43,9 @@ class ActorsAdapter (private val itemList: ArrayList<MoviePerson>, val listener:
         itemList.addAll(list)
         notifyDataSetChanged()
     }
+    fun clearList() {
+        itemList.clear()
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.img_person_item)

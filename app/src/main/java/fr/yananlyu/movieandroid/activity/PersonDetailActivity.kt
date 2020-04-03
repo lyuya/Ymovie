@@ -133,6 +133,7 @@ class PersonDetailActivity : AppCompatActivity() {
                     val collection = response.body()
                     if(collection != null) {
                         if(!collection.cast.isNullOrEmpty()) {
+                            tvAdapter.clearList()
                             tvAdapter.addList(collection.cast)
                         } else {
                             val textView: TextView = findViewById(R.id.empty_movies)

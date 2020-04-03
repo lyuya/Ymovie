@@ -92,9 +92,10 @@ class TvDetailActivity : AppCompatActivity() {
                     val collection = response.body()
                     if(collection != null) {
                         if (!collection.cast.isNullOrEmpty()) {
+                            actorsAdapter.clearList()
                             actorsAdapter.addList(collection.cast)
                         } else {
-                            val textView: TextView = findViewById(R.id.empty_actors)
+                            val textView: TextView = findViewById(R.id.empty_tv)
                             textView.setText(R.string.empty_actors)
                             textView.gravity = Gravity.CENTER
                         }
