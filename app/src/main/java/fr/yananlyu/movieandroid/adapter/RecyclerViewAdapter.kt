@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import fr.yananlyu.movieandroid.R
 import fr.yananlyu.movieandroid.model.Film
 
 class RecyclerViewAdapter(private val itemList: ArrayList<Film>, val listener: (Film) -> Unit) :

@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,16 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import fr.yananlyu.movieandroid.R
 import fr.yananlyu.movieandroid.model.Film
 
-class SearchResultsAdapter (private val itemList: ArrayList<Film>, val listener: (Film) -> Unit) :
-    RecyclerView.Adapter<SearchResultsAdapter.ViewHolder>() {
+class SimilarFilmsAdapter (private val itemList: ArrayList<Film>, val listener: (Film) -> Unit):
+    RecyclerView.Adapter<SimilarFilmsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SearchResultsAdapter.ViewHolder {
+    ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.search_results_item, parent, false)
+            .inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -24,32 +25,32 @@ class SearchResultsAdapter (private val itemList: ArrayList<Film>, val listener:
         return itemList.size
     }
 
-    fun clearList() {
-        itemList.clear()
-    }
-    fun addList(list: ArrayList<Film>) {
-        itemList.addAll(list)
-        notifyDataSetChanged()
-    }
-    override fun onBindViewHolder(holder: SearchResultsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val film = itemList[position]
+        holder.title.text = film.original_title
+
+        val sb = StringBuilder()
+        sb.append(film.vote_average).append("/10")
+        holder.rating.text = sb.toString()
         if(film.poster_path.isNullOrEmpty()) {
             holder.image.setImageResource(R.drawable.default_placeholder)
         } else {
             Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
                 .into(holder.image);
         }
-        holder.title.text = film.original_title
-        holder.year.text = film.release_date
-        holder.overview.text = film.overview
         holder.itemView.setOnClickListener {
             listener(film)
         }
     }
+
+    fun addList(list: ArrayList<Film>) {
+        itemList.addAll(list)
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.search_img)
-        val title: TextView = view.findViewById(R.id.search_title)
-        val year: TextView = view.findViewById(R.id.search_annee)
-        val overview: TextView = view.findViewById(R.id.search_overview)
+        val image: ImageView = view.findViewById(R.id.img)
+        val title: TextView = view.findViewById(R.id.item_title)
+        val rating: TextView = view.findViewById(R.id.item_rating)
     }
 }

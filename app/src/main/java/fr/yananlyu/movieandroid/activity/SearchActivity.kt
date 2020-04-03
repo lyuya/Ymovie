@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.activity
 
 import EndlessRecyclerViewScrollListener
 import android.content.Intent
@@ -12,7 +12,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import fr.yananlyu.movieandroid.model.Result
+import fr.yananlyu.movieandroid.MovieService
+import fr.yananlyu.movieandroid.R
+import fr.yananlyu.movieandroid.RetrofitInstance
+import fr.yananlyu.movieandroid.adapter.SearchResultsAdapter
+import fr.yananlyu.movieandroid.model.ResultsSearch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,10 +36,21 @@ class SearchActivity : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(itemDecoration)
         recyclerView.setHasFixedSize(true)
-        adapter = SearchResultsAdapter(ArrayList()) { film ->
-            val intent = Intent(this, MovieDetailActivity::class.java)
-            intent.putExtra("id", film.id)
-            startActivity(intent)
+        adapter = SearchResultsAdapter(ArrayList()) { item ->
+            if (item.media_type == "movie") {
+                val intent = Intent(this, MovieDetailActivity::class.java)
+                intent.putExtra("id", item.id)
+                startActivity(intent)
+            } else if (item.media_type == "person") {
+                val intent = Intent(this, PersonDetailActivity::class.java)
+                intent.putExtra("id", item.id)
+                startActivity(intent)
+            } else if(item.media_type == "tv") {
+                val intent = Intent(this, TvDetailActivity::class.java)
+                intent.putExtra("id", item.id)
+                startActivity(intent)
+            }
+
         }
         val scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
@@ -50,7 +65,7 @@ class SearchActivity : AppCompatActivity() {
         val searchView: SearchView = findViewById(R.id.search_bar)
         searchView.onActionViewExpanded()
         searchView.setIconified(false);
-        searchView.queryHint = "Search a movie..."
+        searchView.queryHint = "Search movie/TV/artist..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (p0!!.isNotEmpty()) {
@@ -72,12 +87,14 @@ class SearchActivity : AppCompatActivity() {
     }
     fun searchQuery(query: String) {
         val textView: TextView = findViewById(R.id.empty_result_search)
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
-        service.searchMovie(query, 1).enqueue(object : Callback<Result> {
-            override fun onResponse(call: Call<Result>, response: Response<Result>) {
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
+        service.searchItem(query, 1).enqueue(object : Callback<ResultsSearch> {
+            override fun onResponse(call: Call<ResultsSearch>, response: Response<ResultsSearch>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
+                        collection.results.filter { it.media_type == "movie" || it.media_type == "person"}
                         if(!collection.results.isNullOrEmpty()) {
                             textView.visibility = View.INVISIBLE
                             adapter.clearList()
@@ -94,14 +111,16 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
             }
-            override fun onFailure(call: Call<Result>, t: Throwable) { //Manage errors
+            override fun onFailure(call: Call<ResultsSearch>, t: Throwable) { //Manage errors
+                println(t)
             }
         })
     }
     fun loadMore(page: Int) {
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
-        service.searchMovie(query, page).enqueue(object : Callback<Result> {
-            override fun onResponse(call: Call<Result>, response: Response<Result>) {
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
+        service.searchItem(query, page).enqueue(object : Callback<ResultsSearch> {
+            override fun onResponse(call: Call<ResultsSearch>, response: Response<ResultsSearch>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
@@ -111,7 +130,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
             }
-            override fun onFailure(call: Call<Result>, t: Throwable) { //Manage errors
+            override fun onFailure(call: Call<ResultsSearch>, t: Throwable) { //Manage errors
             }
         })
     }

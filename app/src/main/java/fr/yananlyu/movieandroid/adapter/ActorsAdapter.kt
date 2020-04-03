@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,14 +7,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import fr.yananlyu.movieandroid.model.Cast
+import fr.yananlyu.movieandroid.R
+import fr.yananlyu.movieandroid.model.MoviePerson
 
-class ActorsAdapter (private val itemList: ArrayList<Cast>, val listener: (Cast) -> Unit):
+class ActorsAdapter (private val itemList: ArrayList<MoviePerson>, val listener: (MoviePerson) -> Unit):
     RecyclerView.Adapter<ActorsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ActorsAdapter.ViewHolder {
+    ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.person_item, parent, false)
         return ViewHolder(view)
@@ -24,21 +25,21 @@ class ActorsAdapter (private val itemList: ArrayList<Cast>, val listener: (Cast)
         return itemList.size
     }
 
-    override fun onBindViewHolder(holder: ActorsAdapter.ViewHolder, position: Int) {
-        val cast = itemList[position]
-        if(cast.profile_path.isNullOrEmpty()) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val person = itemList[position]
+        if(person.profile_path.isNullOrEmpty()) {
             holder.image.setImageResource(R.drawable.default_placeholder)
         } else {
-            Picasso.get().load("https://image.tmdb.org/t/p/original/" + cast.profile_path)
+            Picasso.get().load("https://image.tmdb.org/t/p/original/" + person.profile_path)
                 .into(holder.image);
         }
-        holder.name.text = cast.name
+        holder.name.text = person.name
         holder.itemView.setOnClickListener {
-            listener(cast)
+            listener(person)
         }
     }
 
-    fun addList(list: ArrayList<Cast>) {
+    fun addList(list: ArrayList<MoviePerson>) {
         itemList.addAll(list)
         notifyDataSetChanged()
     }

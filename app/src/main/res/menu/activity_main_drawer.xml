@@ -9,10 +9,17 @@
             android:icon="@drawable/ic_menu_films"
             android:title="@string/menu_home" />
         <item
+            android:id="@+id/nav_tv"
+            android:icon="@drawable/ic_videocam_black_24dp"
+            android:title="@string/menu_tv" />
+        <item
+            android:id="@+id/nav_person"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="@string/menu_artist" />
+        <item
             android:id="@+id/nav_favoris"
             android:icon="@drawable/ic_menu_favoris"
             android:title="@string/menu_favoris" />
-
     </group>
 
 

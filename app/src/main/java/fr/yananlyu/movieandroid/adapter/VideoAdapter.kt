@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,21 +6,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
-import fr.yananlyu.movieandroid.model.Film
 import fr.yananlyu.movieandroid.model.MovieVideo
 import com.google.android.youtube.player.YouTubeThumbnailView
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat.startActivity
 import android.app.Activity
 import android.content.Context
 import com.google.android.youtube.player.YouTubeStandalonePlayer
-import android.content.Intent
-import android.content.res.Resources
 import android.widget.Toast
 import com.google.android.youtube.player.YouTubeThumbnailLoader
-import androidx.core.content.ContextCompat.startActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
+import fr.yananlyu.movieandroid.R
 
 
 class VideoAdapter (private val itemList: ArrayList<MovieVideo>, val listener: (MovieVideo) -> Unit):

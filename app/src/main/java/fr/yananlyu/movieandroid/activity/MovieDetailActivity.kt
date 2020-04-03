@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.activity
 
 import android.content.Context
 import android.content.Intent
@@ -22,6 +22,11 @@ import retrofit2.Response
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.android.material.snackbar.Snackbar
+import fr.yananlyu.movieandroid.*
+import fr.yananlyu.movieandroid.adapter.ActorsAdapter
+import fr.yananlyu.movieandroid.adapter.SimilarFilmsAdapter
+import fr.yananlyu.movieandroid.adapter.SlideAdapter
+import fr.yananlyu.movieandroid.adapter.VideoAdapter
 import fr.yananlyu.movieandroid.model.*
 import fr.yananlyu.movieandroid.ui.favoris.FavorisFragment
 
@@ -42,26 +47,28 @@ class MovieDetailActivity : AppCompatActivity() {
         val recyclerviewVideos = findViewById(R.id.recyclerviewVideos) as RecyclerView
 
         recyclerViewActors.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        actorsAdapter = ActorsAdapter(ArrayList()) { cast ->
-            val intent = Intent(this, PersonDetailActivity::class.java)
-            intent.putExtra("id", cast.id)
-            print("cast.id" + cast.id)
-            finish()
+        actorsAdapter = ActorsAdapter(ArrayList()) { MoviePerson ->
+            val intent =
+                Intent(this, PersonDetailActivity::class.java)
+            intent.putExtra("id", MoviePerson.id)
+            // finish()
             startActivity(intent)
         }
 
         recyclerViewSimiars.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        similarFilmsAdapter = SimilarFilmsAdapter(ArrayList()) { film ->
-            val intent = Intent(this, MovieDetailActivity::class.java)
-            intent.putExtra("id", film.id)
-            intent.putExtra("backdrop_path", film.backdrop_path)
-            finish()
-            startActivity(intent)
-        }
+        similarFilmsAdapter =
+            SimilarFilmsAdapter(ArrayList()) { film ->
+                val intent =
+                    Intent(this, MovieDetailActivity::class.java)
+                intent.putExtra("id", film.id)
+                intent.putExtra("backdrop_path", film.backdrop_path)
+                // finish()
+                startActivity(intent)
+            }
 
         recyclerviewVideos.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         videosAdapter = VideoAdapter(ArrayList()) { movieVideo ->
-            finish()
+            // finish()
             startActivity(intent)
         }
 
@@ -133,7 +140,8 @@ class MovieDetailActivity : AppCompatActivity() {
         }
     }
     private fun fetchSlideImages(id: Int, context: Context, backimg: String? = null) {
-        val movieDBService = RetrofitInstance.getInstance().create(MovieService::class.java)
+        val movieDBService = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
         movieDBService.getImages(id).enqueue(object : Callback<ResultsImages> {
 
             override fun onResponse(
@@ -145,7 +153,10 @@ class MovieDetailActivity : AppCompatActivity() {
                     val imagesResult = collection.backdrops
                     val viewPager: ViewPager = findViewById(R.id.viewPagerSlide)
                     if (filterImages(imagesResult).size != 0) {
-                        slideAdapter = SlideAdapter(context, filterImages(imagesResult))
+                        slideAdapter = SlideAdapter(
+                            context,
+                            filterImages(imagesResult)
+                        )
                     }
                     else if (!backimg.isNullOrEmpty()){
                         val array: ArrayList<MovieImage> = ArrayList()
@@ -153,7 +164,8 @@ class MovieDetailActivity : AppCompatActivity() {
                         array.add(movieImage)
                         slideAdapter = SlideAdapter(context, array)
                     } else {
-                        slideAdapter = SlideAdapter(context, ArrayList())
+                        slideAdapter =
+                            SlideAdapter(context, ArrayList())
                     }
                     viewPager.adapter = slideAdapter
                 } else {
@@ -175,7 +187,8 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun fetchVideos(id: Int) {
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
         service.getVideos(id).enqueue(object : Callback<ResultVideos> {
             override fun onResponse(call: Call<ResultVideos>, response: Response<ResultVideos>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
@@ -207,9 +220,10 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun fetchCredits(id: Int) {
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
-        service.getCredits(id).enqueue(object : Callback<ResultCast> {
-            override fun onResponse(call: Call<ResultCast>, response: Response<ResultCast>) {
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
+        service.getCredits(id).enqueue(object : Callback<ResultMoviePerson> {
+            override fun onResponse(call: Call<ResultMoviePerson>, response: Response<ResultMoviePerson>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
@@ -226,12 +240,13 @@ class MovieDetailActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ResultCast>, t: Throwable) { //Manage errors
+            override fun onFailure(call: Call<ResultMoviePerson>, t: Throwable) { //Manage errors
             }
         })
     }
     private fun fetchSilmilarFilms(id: Int) {
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
         service.getSimilarFilms(id).enqueue(object : Callback<Result> {
             override fun onResponse(call: Call<Result>, response: Response<Result>) {
                 if (response.isSuccessful && response.body() != null) {
@@ -255,7 +270,8 @@ class MovieDetailActivity : AppCompatActivity() {
         })
     }
     private fun fetchMovieData(id: Int) {
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
         service.getFilm(id).enqueue(object : Callback<Film> {
             override fun onResponse(call: Call<Film>, response: Response<Film>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data

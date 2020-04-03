@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.adapter
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

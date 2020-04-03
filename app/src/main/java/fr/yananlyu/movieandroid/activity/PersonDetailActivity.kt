@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,12 +8,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import fr.yananlyu.movieandroid.model.Film
+import fr.yananlyu.movieandroid.MovieService
+import fr.yananlyu.movieandroid.R
+import fr.yananlyu.movieandroid.adapter.RecyclerViewAdapter
+import fr.yananlyu.movieandroid.RetrofitInstance
 import fr.yananlyu.movieandroid.model.MoviePerson
-import fr.yananlyu.movieandroid.model.ResultCast
-import fr.yananlyu.movieandroid.model.ResultPerson
+import fr.yananlyu.movieandroid.model.ResultPersonFilm
 import kotlinx.android.synthetic.main.activity_person_detail.*
-import kotlinx.android.synthetic.main.movie_detail.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,13 +27,15 @@ class PersonDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_person_detail)
         val recyclerViewMoviePerson = findViewById(R.id.recyclerview_person_movies) as RecyclerView
         recyclerViewMoviePerson.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewAdapter = RecyclerViewAdapter(ArrayList()) { film ->
-            val intent = Intent(this, MovieDetailActivity::class.java)
-            intent.putExtra("id", film.id)
-            intent.putExtra("backdrop_path", film.backdrop_path)
-            finish()
-            startActivity(intent)
-        }
+        recyclerViewAdapter =
+            RecyclerViewAdapter(ArrayList()) { film ->
+                val intent =
+                    Intent(this, MovieDetailActivity::class.java)
+                intent.putExtra("id", film.id)
+                intent.putExtra("backdrop_path", film.backdrop_path)
+                finish()
+                startActivity(intent)
+            }
         recyclerViewMoviePerson.adapter = recyclerViewAdapter
         val id:Int = this.intent.extras!!.getInt("id")
         fetchData(id)
@@ -40,7 +43,8 @@ class PersonDetailActivity : AppCompatActivity() {
     }
 
     fun fetchData(id:Int) {
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
         service.getPerson(id).enqueue(object : Callback<MoviePerson> {
             override fun onResponse(call: Call<MoviePerson>, response: Response<MoviePerson>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
@@ -59,9 +63,10 @@ class PersonDetailActivity : AppCompatActivity() {
         })
     }
     fun fetchMovies(id: Int) {
-        val service = RetrofitInstance.getInstance().create(MovieService::class.java)
-        service.getPersonMovies(id).enqueue(object : Callback<ResultPerson> {
-            override fun onResponse(call: Call<ResultPerson>, response: Response<ResultPerson>) {
+        val service = RetrofitInstance.getInstance()
+            .create(MovieService::class.java)
+        service.getPersonMovies(id).enqueue(object : Callback<ResultPersonFilm> {
+            override fun onResponse(call: Call<ResultPersonFilm>, response: Response<ResultPersonFilm>) {
                 if (response.isSuccessful && response.body() != null) { //Manage data
                     val collection = response.body()
                     if(collection != null) {
@@ -72,7 +77,7 @@ class PersonDetailActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ResultPerson>, t: Throwable) { //Manage errors
+            override fun onFailure(call: Call<ResultPersonFilm>, t: Throwable) { //Manage errors
             }
         })
     }
@@ -83,8 +88,12 @@ class PersonDetailActivity : AppCompatActivity() {
         if (person.deathday == null) {
             deathday = "Now"
         }
-        sb.append(person.birthday).append("~").append(deathday)
-        birthday_person.text = sb.toString()
+        if (person.birthday != null) {
+            sb.append(person.birthday).append("~").append(deathday)
+            birthday_person.text = sb.toString()
+        } else {
+            birthday_person.visibility = View.INVISIBLE
+        }
         resume_person.text = person.biography
         place_birth.text = person.place_of_birth
 

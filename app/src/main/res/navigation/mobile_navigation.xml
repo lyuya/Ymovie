@@ -12,14 +12,21 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_tv"
+        android:name="fr.yananlyu.movieandroid.ui.TvListFragment"
+        android:label="@string/menu_tv"
+        tools:layout="@layout/fragment_tv_list" />
+    <fragment
+        android:id="@+id/nav_person"
+        android:name="fr.yananlyu.movieandroid.ui.PersonListFragment"
+        android:label="@string/menu_artist"
+        tools:layout="@layout/fragment_person" />
+
+    <fragment
         android:id="@+id/nav_favoris"
         android:name="fr.yananlyu.movieandroid.ui.favoris.FavorisFragment"
         android:label="@string/menu_favoris"
         tools:layout="@layout/fragment_favoris" />
 
-    <fragment
-        android:id="@+id/nav_search"
-        android:name="fr.yananlyu.movieandroid.ui.home.ListMovieFragment"
-        android:label="@string/action_search"
-        tools:layout="@layout/fragment_list" />
+
 </navigation>

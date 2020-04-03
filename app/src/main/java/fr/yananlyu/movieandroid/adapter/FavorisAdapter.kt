@@ -1,21 +1,30 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import fr.yananlyu.movieandroid.model.Cast
 import fr.yananlyu.movieandroid.model.Film
+import fr.yananlyu.movieandroid.R
 
-class SimilarFilmsAdapter (private val itemList: ArrayList<Film>, val listener: (Film) -> Unit):
-    RecyclerView.Adapter<SimilarFilmsAdapter.ViewHolder>() {
+
+class FavorisAdapter(private val itemList: ArrayList<Film>, val listener: (Film) -> Unit):
+    RecyclerView.Adapter<FavorisAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SimilarFilmsAdapter.ViewHolder {
+    ): ViewHolder {
+        val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val listItemBinding = DataBindingUtil.inflate<ViewDataBinding>(inflater,
+            R.layout.list_item, parent, false)
+
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)
@@ -25,25 +34,25 @@ class SimilarFilmsAdapter (private val itemList: ArrayList<Film>, val listener: 
         return itemList.size
     }
 
-    override fun onBindViewHolder(holder: SimilarFilmsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val film = itemList[position]
-        holder.title.text = film.original_title
-
-        val sb = StringBuilder()
-        sb.append(film.vote_average).append("/10")
-        holder.rating.text = sb.toString()
         if(film.poster_path.isNullOrEmpty()) {
             holder.image.setImageResource(R.drawable.default_placeholder)
         } else {
             Picasso.get().load("https://image.tmdb.org/t/p/original/" + film.poster_path)
                 .into(holder.image);
         }
+        holder.title.text = film.original_title
+
+        val sb = StringBuilder()
+        sb.append(film.vote_average).append("/10")
+        holder.rating.text = sb.toString()
         holder.itemView.setOnClickListener {
             listener(film)
-        }
-    }
+        }    }
 
     fun addList(list: ArrayList<Film>) {
+        itemList.clear()
         itemList.addAll(list)
         notifyDataSetChanged()
     }

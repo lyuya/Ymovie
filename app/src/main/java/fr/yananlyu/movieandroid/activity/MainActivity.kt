@@ -1,4 +1,4 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
+import fr.yananlyu.movieandroid.R
+import fr.yananlyu.movieandroid.adapter.RecyclerViewAdapter
 import fr.yananlyu.movieandroid.ui.favoris.FavorisFragment
-import kotlinx.android.synthetic.main.content_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_favoris
+                R.id.nav_home, R.id.name_tv, R.id.nav_person, R.id.nav_favoris
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

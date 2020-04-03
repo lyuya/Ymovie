@@ -9,6 +9,8 @@
     <string name="action_search">Search</string>
     <string name="menu_home">Films</string>
     <string name="menu_favoris">Favoris</string>
+    <string name="menu_tv">TV series</string>
+    <string name="menu_artist">Artists</string>
     <string name="search_hint">Search…</string>
     <string name="app_error">Oops something went wrong</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
@@ -24,5 +26,6 @@
     <string name="films_similaires">Similar movies</string>
     <string name="actor_movies">Known For</string>
     <string name="movie_videos">Trailors</string>
+    <string name="seasons">Seasons</string>
     <string name="youtube_api_key">AIzaSyCcdd-NS-deT6IE9k8BC2eXce__z1ONbeg</string>
 </resources>

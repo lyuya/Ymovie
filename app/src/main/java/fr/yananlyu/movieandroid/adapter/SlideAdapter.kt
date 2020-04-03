@@ -1,14 +1,14 @@
-package fr.yananlyu.movieandroid
+package fr.yananlyu.movieandroid.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.squareup.picasso.Picasso
+import fr.yananlyu.movieandroid.R
 import fr.yananlyu.movieandroid.model.MovieImage
 
 class SlideAdapter(private val context: Context, private var images:ArrayList<MovieImage>): PagerAdapter() {

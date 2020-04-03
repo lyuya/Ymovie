@@ -18,6 +18,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import EndlessRecyclerViewScrollListener
+import fr.yananlyu.movieandroid.activity.MovieDetailActivity
+import fr.yananlyu.movieandroid.adapter.RecyclerViewAdapter
 
 
 class ListMovieFragment : Fragment() {
