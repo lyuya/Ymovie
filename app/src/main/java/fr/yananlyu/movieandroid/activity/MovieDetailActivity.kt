@@ -47,10 +47,10 @@ class MovieDetailActivity : AppCompatActivity() {
         val recyclerviewVideos = findViewById(R.id.recyclerviewVideos) as RecyclerView
 
         recyclerViewActors.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        actorsAdapter = ActorsAdapter(ArrayList()) { MoviePerson ->
+        actorsAdapter = ActorsAdapter(ArrayList()) { person ->
             val intent =
                 Intent(this, PersonDetailActivity::class.java)
-            intent.putExtra("id", MoviePerson.id)
+            intent.putExtra("person_id", person.id)
             // finish()
             startActivity(intent)
         }

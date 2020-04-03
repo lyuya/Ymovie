@@ -43,11 +43,11 @@ class SearchActivity : AppCompatActivity() {
                 startActivity(intent)
             } else if (item.media_type == "person") {
                 val intent = Intent(this, PersonDetailActivity::class.java)
-                intent.putExtra("id", item.id)
+                intent.putExtra("person_id", item.id)
                 startActivity(intent)
             } else if(item.media_type == "tv") {
                 val intent = Intent(this, TvDetailActivity::class.java)
-                intent.putExtra("id", item.id)
+                intent.putExtra("tv_id", item.id)
                 startActivity(intent)
             }
 

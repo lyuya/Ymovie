@@ -19,11 +19,8 @@ import fr.yananlyu.movieandroid.MovieService
 import fr.yananlyu.movieandroid.R
 import fr.yananlyu.movieandroid.RetrofitInstance
 import fr.yananlyu.movieandroid.activity.PersonDetailActivity
-import fr.yananlyu.movieandroid.activity.TvDetailActivity
 import fr.yananlyu.movieandroid.adapter.ActorsAdapter
 import fr.yananlyu.movieandroid.model.ResultPerson
-import fr.yananlyu.movieandroid.model.ResultsTv
-import kotlinx.android.synthetic.main.fragment_tv_list.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,7 +41,7 @@ class PersonListFragment : Fragment() {
 
         adapter = ActorsAdapter(ArrayList()) { person ->
             val intent = Intent(context, PersonDetailActivity::class.java)
-            intent.putExtra("id", person.id)
+            intent.putExtra("person_id", person.id)
             startActivity(intent)
         }
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {

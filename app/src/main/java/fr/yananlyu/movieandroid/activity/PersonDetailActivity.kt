@@ -49,13 +49,13 @@ class PersonDetailActivity : AppCompatActivity() {
             TvAdapter(ArrayList()) { tv ->
                 val intent =
                     Intent(this, TvDetailActivity::class.java)
-                intent.putExtra("id", tv.id)
+                intent.putExtra("tv_id", tv.id)
                 finish()
                 startActivity(intent)
             }
         recyclerViewMoviePerson.adapter = recyclerViewAdapter
         recyclerViewTvPerson.adapter = tvAdapter
-        val id:Int = this.intent.extras!!.getInt("id")
+        val id:Int = this.intent.extras!!.getInt("person_id")
         fetchData(id)
         fetchMovies(id)
         fetchTvs(id)

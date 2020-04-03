@@ -45,7 +45,7 @@ class TvListFragment : Fragment() {
 
         adapter = TvAdapter(ArrayList()) { tv ->
             val intent = Intent(context, TvDetailActivity::class.java)
-            intent.putExtra("id", tv.id)
+            intent.putExtra("tv_id", tv.id)
             startActivity(intent)
         }
         val scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {

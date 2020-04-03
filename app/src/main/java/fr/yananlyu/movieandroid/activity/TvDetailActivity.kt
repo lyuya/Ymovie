@@ -36,7 +36,7 @@ class TvDetailActivity : AppCompatActivity() {
             ActorsAdapter(ArrayList()) { person ->
                 val intent =
                     Intent(this, PersonDetailActivity::class.java)
-                intent.putExtra("id", person.id)
+                intent.putExtra("person_id", person.id)
                 finish()
                 startActivity(intent)
             }
@@ -44,7 +44,7 @@ class TvDetailActivity : AppCompatActivity() {
         }
         recyclerview_tv_person.adapter = actorsAdapter
         recyclerview_tv_season.adapter = seasonAdapter
-        val id:Int = this.intent.extras!!.getInt("id")
+        val id:Int = this.intent.extras!!.getInt("tv_id")
         fetchData(id)
         fetchCredits(id)
     }

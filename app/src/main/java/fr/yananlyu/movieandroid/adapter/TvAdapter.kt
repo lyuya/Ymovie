@@ -14,7 +14,7 @@ import fr.yananlyu.movieandroid.model.Tv
 class TvAdapter (private val itemList: ArrayList<Tv>, val listener: (Tv) -> Unit):
     RecyclerView.Adapter<TvAdapter.ViewHolder>() {
     lateinit var context: Context
-    lateinit var tv: Tv
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -30,7 +30,7 @@ class TvAdapter (private val itemList: ArrayList<Tv>, val listener: (Tv) -> Unit
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        tv = itemList[position]
+        val tv = itemList[position]
         holder.name.text = tv.original_name
         val sb = StringBuilder()
         sb.append(tv.vote_average).append("/10")
@@ -38,6 +38,7 @@ class TvAdapter (private val itemList: ArrayList<Tv>, val listener: (Tv) -> Unit
         Picasso.get().load("https://image.tmdb.org/t/p/original/" + tv.poster_path)
             .into(holder.img);
         holder.itemView.setOnClickListener {
+            println(tv.original_name)
             listener(tv)
         }
     }
