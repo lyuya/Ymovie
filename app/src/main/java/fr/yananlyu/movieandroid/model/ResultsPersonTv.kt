@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 class ResultsPersonTv (
     @SerializedName("id")
     var id: Int,
-    @SerializedName("MoviePerson")
-    var MoviePerson: ArrayList<Tv>
+    @SerializedName("cast")
+    var cast: ArrayList<Tv>
 )

@@ -56,6 +56,6 @@ interface MovieService {
     fun getTvCredits(@Path(value = "id", encoded = true) id: Int): Call<ResultMoviePerson>
 
     @GET("person/{person_id}/tv_credits")
-    fun getPersonTv(@Path(value = "person_id", encoded = true) id: Int): Call<ResultsTv>
+    fun getPersonTv(@Path(value = "person_id", encoded = true) id: Int): Call<ResultsPersonTv>
 }
 
