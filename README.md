@@ -1,5 +1,14 @@
 # Ymovie
 Projet mobile de M1 MIAGE
+
+### Fonctions:
+- Search a movie/tv series/ artists
+- add a movie in your favorite list
+- consult a list of popular/updating/top rated/now playing films
+- consult a list of TV series
+- consult a list of artist
+
+
 ## Screenshot
 
 ![Screenshot3](https://user-images.githubusercontent.com/37207110/78128666-93714d00-7416-11ea-8c89-ada4533f20f5.jpg)
